@@ -10,18 +10,23 @@ import UIKit
 import MessageUI
 import FirebaseDatabase
 import Contacts
+import Firebase
 
-class ViewController: UIViewController, MFMessageComposeViewControllerDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class messageViewController: UIViewController, MFMessageComposeViewControllerDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     let imagePicker = UIImagePickerController()
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var messageTextField: UITextField!
-    let messageVC = MFMessageComposeViewController()
+    var messageVC = MFMessageComposeViewController()
     var reference:DatabaseReference!
     var numbersOnly:[String]=[String]()
     var contactData = [String]()
-
+    var messageData:[Message] = [Message]()
+    var imageURLs:[String]=[String]()
+    
+    @IBOutlet weak var addAttachmentButton: UIButton!
+    
     var SelectedGroup:Group!{
         didSet{
 
@@ -42,7 +47,10 @@ class ViewController: UIViewController, MFMessageComposeViewControllerDelegate,U
         tableView.delegate=self
         tableView.dataSource=self
         tableView.register(UINib(nibName: "MessageTableViewCell", bundle: nil), forCellReuseIdentifier: "MessageTableViewCell")
-        tableView.rowHeight=70
+        tableView.register(UINib(nibName: "MessageImgTableViewCell", bundle: nil), forCellReuseIdentifier: "imgMessage")
+
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 100
         tableView.separatorStyle = .none
         
         messageTextField.delegate=self
@@ -51,6 +59,7 @@ class ViewController: UIViewController, MFMessageComposeViewControllerDelegate,U
         
         reference = Database.database().reference()
         loadContactInfo()
+        loadMessages()
         
 
 
@@ -59,13 +68,12 @@ class ViewController: UIViewController, MFMessageComposeViewControllerDelegate,U
     @objc func tappedfunction(){
         messageTextField.endEditing(true)
         
+        
+
     }
 
     @IBAction func viewContactPressed(_ sender: Any) {
-//        loadContacts()
-//        loadContactInfo()
-//        print("#####3")
-//        print(contactList.first?.name)
+
         performSegue(withIdentifier: "viewContacts", sender: self)
 
     }
@@ -76,15 +84,21 @@ class ViewController: UIViewController, MFMessageComposeViewControllerDelegate,U
         
         if let imageURL=info[UIImagePickerController.InfoKey.imageURL] {
             imagePicker.dismiss(animated: true) {
+                
+                let path=(imageURL as AnyObject).absoluteString!.components(separatedBy: "//")[1]
+                self.imageURLs.append(path)
+                self.addAttachmentButton.setTitle("\(self.imageURLs.count)", for: .normal)
 
                 self.messageVC.addAttachmentURL(imageURL as! URL, withAlternateFilename: nil)
-
+                
+                
             }
             
         }
     }
     
     @IBAction func addAttachmentButtonPressed(_ sender: Any) {
+
         present(imagePicker, animated: true, completion: nil)
     }
 
@@ -92,76 +106,93 @@ class ViewController: UIViewController, MFMessageComposeViewControllerDelegate,U
         switch (result) {
         case .cancelled:
             print("Message was cancelled")
+                  var timestamp = String(NSDate().timeIntervalSince1970).components(separatedBy: ".")[0]
+            var ans:Int!
+            
+            var dictionary:Dictionary<String,String> = [:]
+            dictionary["text"]=messageTextField.text
+            dictionary["img"]="nil"
+            
+            
+            let target=self.reference.child("messages").child(self.SelectedGroup.groupID).child(timestamp)
+            target.setValue(dictionary)
+            ans=Int(timestamp)!+1
+            timestamp=String(ans)
+            
+            for imgURL in self.imageURLs{
+//                let timestamp1 = String(NSDate().timeIntervalSince1970).components(separatedBy: ".")[0]
+                var dictionary1:Dictionary<String,String> = [:]
+                dictionary1["text"]=messageTextField.text
+                dictionary["img"]=imgURL
+                
+                
+                let target=self.reference.child("messages").child(self.SelectedGroup.groupID).child(timestamp)
+                target.setValue(dictionary)
+
+                ans=Int(timestamp)!+1
+                timestamp=String(ans)
+            }
+
+            messageVC = MFMessageComposeViewController()
+            imageURLs.removeAll()
+//            addAttachmentButton.buttonType = UIButton.ButtonType.contactAdd
             dismiss(animated: true, completion: nil)
         case .failed:
             print("Message failed")
             dismiss(animated: true, completion: nil)
         case .sent:
             print("Message was sent")
+
             dismiss(animated: true, completion: nil)
         default:
             break
         }
     }
+    
     @IBAction func sendButtonPresed(_ sender: Any) {
         messageVC.body = messageTextField.text;
         messageVC.recipients = numbersOnly
         messageVC.messageComposeDelegate = self
 
-        self.present(messageVC, animated: true, completion: nil)
+        self.present(messageVC, animated: true,completion: nil)
+
         messageTextField.endEditing(true)
     }
     func loadContactInfo(){
-        let target=reference.child("groupInfo").child("user1").child(SelectedGroup.groupID)
+        let target=reference.child("groupInfo").child(Auth.auth().currentUser!.uid).child(SelectedGroup.groupID)
         target.observe(.childAdded) { (DataSnapshot) in
             let snapshot=DataSnapshot.value as! Dictionary<String,String>
             let contact=Contact()
             contact.name=snapshot["name"]!
             contact.number=snapshot["number"]!
+            contact.contactID = DataSnapshot.key
             self.numbersOnly.append(contact.number)
             self.contactList.append(contact)
         }
+        target.observe(.childRemoved) { (DataSnapshot) in
+            let snapshot=DataSnapshot.value as! Dictionary<String,String>
+            let contact=Contact()
+            contact.name=snapshot["name"]!
+            contact.number=snapshot["number"]!
+            contact.contactID = DataSnapshot.key
+            
+            self.contactList = self.contactList.filter( {$0 != contact} )
+        }
         
     }
-//    func lloadContactInfo(){
-//        let target=reference.child("groupInfo").child("user1").child(SelectedGroup.groupID)
-//        target.observe(.childAdded) { (DataSnapshot) in
-//            let snapshot=DataSnapshot.value as! Dictionary<String,String>
-//            let contact=Contact()
-//            contact.name=snapshot["name"]!
-//            contact.number=snapshot["number"]!
-//            self.numbersOnly.append(contact.number)
-//            self.contactList.append(contact)
-//        }
-//
-//    }
-//    func loadContacts()  {
-//        let store = CNContactStore()
-//        store.requestAccess(for: .contacts) { (granted, err) in
-//            if let whaterr = err{
-//                print("Failed to open the App \(whaterr)")
-//            }
-//            if granted {
-//                print("ACCESS GRANTED")
-//                let keys = [CNContactGivenNameKey,CNContactPhoneNumbersKey]
-//                let request = CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])
-//                do{
-//                    try store.enumerateContacts(with: request
-//                        , usingBlock: { (contact, stopPointerIfYouToStopEnumerating) in
-//                            self.contactData.append(contact.givenName)
-//                            print(contact.givenName)
-//                            print(contact.phoneNumbers[0].value.stringValue)
-//                    })
-//                }catch{
-//
-//                }
-//
-//            }
-//            else{
-//                print("denied")
-//            }
-//        }
-//    }
+    func loadMessages(){
+        let target=self.reference.child("messages").child(self.SelectedGroup.groupID)
+        target.observe(.childAdded) { (DataSnapshot) in
+            let snapshot=DataSnapshot.value as! Dictionary<String,String>
+            let message:Message = Message()
+            message.text = snapshot["text"]!
+            message.img = snapshot["img"]!
+            self.messageData.append(message)
+            self.tableView.reloadData()
+        }
+        
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier=="addContacts" {
             let destination = segue.destination as! ContactsViewController
@@ -172,6 +203,7 @@ class ViewController: UIViewController, MFMessageComposeViewControllerDelegate,U
             let destination = segue.destination as! ViewMemberViewController
             
             destination.contacts = contactList
+            destination.group = self.SelectedGroup
             
         }
     }
@@ -180,15 +212,36 @@ class ViewController: UIViewController, MFMessageComposeViewControllerDelegate,U
 
 
 
-extension ViewController: UITableViewDelegate, UITableViewDataSource,UITextFieldDelegate {
+extension messageViewController: UITableViewDelegate, UITableViewDataSource,UITextFieldDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return messageData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let mycel = tableView.dequeueReusableCell(withIdentifier: "MessageTableViewCell", for: indexPath)
+        let msg = messageData[indexPath.row]
+        if msg.img == "nil" {
+            let mycel = tableView.dequeueReusableCell(withIdentifier: "MessageTableViewCell", for: indexPath) as! MessageTableViewCell
+            mycel.Msgtext.text=messageData[indexPath.row].text
+            return mycel
+        }else{
+            let mycel = tableView.dequeueReusableCell(withIdentifier: "imgMessage", for: indexPath) as! MessageImgTableViewCell
+            
+            if let img=UIImage(contentsOfFile: messageData[indexPath.row].img){
+                mycel.imagemm.image = img
+            
+//                if FileManager.default.fileExists(atPath: imageURLs[indexPath.row]) {
+//                    let url = NSURL(string: imageURLs[indexPath.row])
+//                    let data = NSData(contentsOf: url! as URL)
+//                    mycel.imagemm.image = UIImage(data: data! as Data)
+//                }
+            }
+//
+//            let url = URL(string:"https://cdn.pixabay.com/photo/2014/12/15/17/16/pier-569314__340.jpg")
+//            mycel.imagemm.kf.setImage(with: url)
+            return mycel
+        }
         
-        return mycel
+        
     }
     func textFieldDidBeginEditing(_ textField: UITextField) {
 

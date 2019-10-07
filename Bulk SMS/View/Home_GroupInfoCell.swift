@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import SwipeCellKit
 
-class Home_GroupInfoCell: UITableViewCell {
+class Home_GroupInfoCell: SwipeTableViewCell {
 
     @IBOutlet weak var groupImg: UIImageView!
     @IBOutlet weak var groupLabel: UILabel!

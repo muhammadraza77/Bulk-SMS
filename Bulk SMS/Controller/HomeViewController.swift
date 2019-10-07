@@ -8,6 +8,8 @@
 
 import UIKit
 import FirebaseDatabase
+import SwipeCellKit
+import Firebase
 
 class HomeViewController: UIViewController {
 
@@ -28,12 +30,29 @@ class HomeViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.rowHeight=57
         
+        self.navigationItem.setHidesBackButton(true, animated:false)
         LoadData()
         // Do any additional setup after loading the view.
     }
 
+    @IBAction func logout(_ sender: Any) {
+        let alert=UIAlertController(title: "Logout", message: "Your are about to get Logout?Are You sure ?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Logout", style: .default, handler: { (UIAlertAction) in
+            do{
+                try Auth.auth().signOut()
+                self.navigationController?.popToRootViewController(animated: true)
+            }catch{
+                
+            }
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (UIAlertAction) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        present(alert, animated: true, completion: nil)
+    }
     @IBAction func addNewGroup(_ sender: UIBarButtonItem) {
-        let target=ref.child("groupIDs").child("user1")
+        let target=ref.child("groupIDs").child(Auth.auth().currentUser!.uid)
 
         var nametextField:UITextField!
         var desctextField:UITextField!
@@ -62,26 +81,27 @@ class HomeViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (UIAlertAction) in
             alert.dismiss(animated: true, completion: nil)
         }))
+        
         present(alert, animated: true, completion: nil)
     }
     func LoadData(){
         
-        let target=ref.child("groupIDs").child("user1")
+        let target=ref.child("groupIDs").child(Auth.auth().currentUser!.uid)
         target.observe(.childAdded) { (dsnapshot) in
             var datasnapshot=dsnapshot.value as! Dictionary<String,String>
             let group=Group()
             group.groupName = datasnapshot["groupName"]!
             group.groupID = dsnapshot.key
             group.groupDescription=datasnapshot["groupDesc"]!
-            print("*****"+group.groupName+"*******")
             
             self.data.append(group)
             self.tableView.reloadData()
         }
+
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier=="openGroup" {
-            let s=segue.destination as! ViewController
+            let s=segue.destination as! messageViewController
             if let indexPath = tableView.indexPathForSelectedRow{
                 print("%%%%%%%%%%%%%%%")
                 s.SelectedGroup=data[indexPath.row]
@@ -94,7 +114,22 @@ class HomeViewController: UIViewController {
 
 
 }
-extension HomeViewController: UITableViewDelegate,UITableViewDataSource{
+extension HomeViewController: UITableViewDelegate,UITableViewDataSource,SwipeTableViewCellDelegate{
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            let target=self.ref.child("groupIDs").child(Auth.auth().currentUser!.uid).child(self.data[indexPath.row].groupID)
+            target.removeValue(completionBlock: { (Error, DatabaseReference) in
+                if Error==nil {
+                    self.data.remove(at: indexPath.row)
+                    self.tableView.reloadData()
+                }
+            })
+
+        }
+        deleteAction.image = UIImage(named: "delete")
+        return [deleteAction]
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
@@ -103,6 +138,7 @@ extension HomeViewController: UITableViewDelegate,UITableViewDataSource{
         let mycell=tableView.dequeueReusableCell(withIdentifier: "Home_GroupInfoCell", for: indexPath) as! Home_GroupInfoCell
         mycell.groupLabel.text = data[indexPath.row].groupName
         mycell.groupDesc.text = data[indexPath.row].groupDescription
+        mycell.delegate = self
         return mycell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

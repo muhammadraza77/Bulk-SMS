@@ -8,5 +8,7 @@ target 'Bulk SMS' do
   # Pods for Bulk SMS
 pod 'Firebase/Database'
 pod 'Firebase/Auth'
+pod 'SwipeCellKit'
+pod 'SVProgressHUD'
 
 end

@@ -9,6 +9,7 @@
 import UIKit
 import Contacts
 import FirebaseDatabase
+import Firebase
 
 class ContactsViewController: UIViewController {
     var contacts:[Contact]=[Contact]()
@@ -24,7 +25,7 @@ class ContactsViewController: UIViewController {
         loadContacts()
         
         refernce=Database.database().reference()
-        self.navigationItem.setHidesBackButton(true, animated: false)
+//        self.navigationItem.setHidesBackButton(true, animated: false)
         // Do any additional setup after loading the view.
     }
     
@@ -33,7 +34,7 @@ class ContactsViewController: UIViewController {
         if selectedContacts.count>0{
             for n in 0...selectedContacts.count-1 {
                 let index=selectedContacts[n]
-                _=refernce.child("groupInfo").child("user1").child(SelectedGroup.groupID).childByAutoId().setValue(["name":contacts[index].name,"number":contacts[index].number])
+                _=refernce.child("groupInfo").child(Auth.auth().currentUser!.uid).child(SelectedGroup.groupID).childByAutoId().setValue(["name":contacts[index].name,"number":contacts[index].number])
             }
 
         }
@@ -62,7 +63,9 @@ class ContactsViewController: UIViewController {
                 }catch{
                     
                 }
-                self.tableView.reloadData()
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
                 
             }
             else{
