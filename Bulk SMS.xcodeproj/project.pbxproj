@@ -28,6 +28,7 @@
 		929794142346002D007B64BA /* MessageImgTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 929794122346002D007B64BA /* MessageImgTableViewCell.xib */; };
 		92CA393423468D85007F6A8E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CA393323468D85007F6A8E /* LoginViewController.swift */; };
 		92CA393623468DA9007F6A8E /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CA393523468DA9007F6A8E /* RegisterViewController.swift */; };
+		92D31196234BC9CB007D1661 /* temp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D31195234BC9CB007D1661 /* temp.swift */; };
 		92D8250A2341FB590089F328 /* contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D825092341FB590089F328 /* contact.swift */; };
 		92F4BC782341516C004D5507 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F4BC772341516C004D5507 /* Group.swift */; };
 /* End PBXBuildFile section */
@@ -57,6 +58,7 @@
 		929794122346002D007B64BA /* MessageImgTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageImgTableViewCell.xib; sourceTree = "<group>"; };
 		92CA393323468D85007F6A8E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		92CA393523468DA9007F6A8E /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		92D31195234BC9CB007D1661 /* temp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = temp.swift; sourceTree = "<group>"; };
 		92D825092341FB590089F328 /* contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = contact.swift; sourceTree = "<group>"; };
 		92F4BC772341516C004D5507 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		9CB13568F5356F2DD3D557C0 /* Pods_Bulk_SMS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bulk_SMS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,6 +128,7 @@
 				9252A75C2341D00100494F78 /* MessageTableViewCell.xib */,
 				929794112346002D007B64BA /* MessageImgTableViewCell.swift */,
 				929794122346002D007B64BA /* MessageImgTableViewCell.xib */,
+				92D31195234BC9CB007D1661 /* temp.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				9252A75D2341D00100494F78 /* MessageTableViewCell.swift in Sources */,
 				92CA393423468D85007F6A8E /* LoginViewController.swift in Sources */,
 				929160B22345318E00AE1B54 /* Message.swift in Sources */,
+				92D31196234BC9CB007D1661 /* temp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

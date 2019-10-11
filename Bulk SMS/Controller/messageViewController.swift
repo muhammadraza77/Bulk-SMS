@@ -53,24 +53,54 @@ class messageViewController: UIViewController, MFMessageComposeViewControllerDel
         tableView.estimatedRowHeight = 100
         tableView.separatorStyle = .none
         
+        
         messageTextField.delegate=self
         let tabGesture=UITapGestureRecognizer(target: self, action: #selector(tappedfunction))
         tableView.addGestureRecognizer(tabGesture)
+
+        // Register your Notification, To know When Key Board Appears.
+
+        NotificationCenter.default.addObserver(self,selector: #selector(self.keyboardWillShow(notification:)),name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self,selector: #selector(self.keyboardWillHide(notification:)),name: UIResponder.keyboardWillHideNotification, object: nil)
+
         
         reference = Database.database().reference()
         loadContactInfo()
         loadMessages()
-        
-
+    
 
         
     }
+    @objc func keyboardWillShow(notification:NSNotification) {
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let keyboardHeight = keyboardRectangle.height
+        UIView.animate(withDuration: 0.5){
+            self.heightConstraint.constant=keyboardHeight+keyboardHeight*0.20
+            self.view.layoutIfNeeded()
+
+        }
+
+
+    }
+
+    @objc func keyboardWillHide(notification:NSNotification) {
+        UIView.animate(withDuration: 0.5){
+            self.heightConstraint.constant=50
+            self.view.layoutIfNeeded()
+
+        }
+
+    }
+    
     @objc func tappedfunction(){
         messageTextField.endEditing(true)
         
         
 
     }
+
 
     @IBAction func viewContactPressed(_ sender: Any) {
 
@@ -87,8 +117,7 @@ class messageViewController: UIViewController, MFMessageComposeViewControllerDel
                 
                 let path=(imageURL as AnyObject).absoluteString!.components(separatedBy: "//")[1]
                 self.imageURLs.append(path)
-                self.addAttachmentButton.setTitle("\(self.imageURLs.count)", for: .normal)
-
+                
                 self.messageVC.addAttachmentURL(imageURL as! URL, withAlternateFilename: nil)
                 
                 
@@ -135,6 +164,8 @@ class messageViewController: UIViewController, MFMessageComposeViewControllerDel
 
             messageVC = MFMessageComposeViewController()
             imageURLs.removeAll()
+            messageTextField.text = ""
+            
 //            addAttachmentButton.buttonType = UIButton.ButtonType.contactAdd
             dismiss(animated: true, completion: nil)
         case .failed:
@@ -246,7 +277,7 @@ extension messageViewController: UITableViewDelegate, UITableViewDataSource,UITe
     func textFieldDidBeginEditing(_ textField: UITextField) {
 
         UIView.animate(withDuration: 0.5){
-            self.heightConstraint.constant=310
+//            self.heightConstraint.constant=390
             self.view.layoutIfNeeded()
 
         }

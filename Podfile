@@ -10,5 +10,6 @@ pod 'Firebase/Database'
 pod 'Firebase/Auth'
 pod 'SwipeCellKit'
 pod 'SVProgressHUD'
+pod "BSImagePicker", "~> 2.4"
 
 end

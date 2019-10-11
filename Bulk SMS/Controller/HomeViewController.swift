@@ -88,7 +88,7 @@ class HomeViewController: UIViewController {
         
         let target=ref.child("groupIDs").child(Auth.auth().currentUser!.uid)
         target.observe(.childAdded) { (dsnapshot) in
-            var datasnapshot=dsnapshot.value as! Dictionary<String,String>
+            let datasnapshot=dsnapshot.value as! Dictionary<String,String>
             let group=Group()
             group.groupName = datasnapshot["groupName"]!
             group.groupID = dsnapshot.key
