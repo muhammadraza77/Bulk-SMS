@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="czx-cj-Qp1">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -61,7 +60,8 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.20392156862745098" green="0.28627450980392155" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" red="0.20392156859999999" green="0.28627450980000002" blue="0.36862745099999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="RjO-zY-NVm" firstAttribute="leading" secondItem="5aV-RC-XPY" secondAttribute="leading" constant="2" id="3cc-9C-JMe"/>
                             <constraint firstItem="ETD-EI-ofJ" firstAttribute="bottom" secondItem="5aV-RC-XPY" secondAttribute="bottom" id="FWx-tp-aPW"/>
@@ -146,15 +146,24 @@
                                             <action selector="addAttachmentButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="E39-Av-MTV"/>
                                         </connections>
                                     </button>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Xg-Eg-LNA">
+                                        <rect key="frame" x="305" y="18" width="12" height="8.5"/>
+                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="7"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.20392156859999999" green="0.28627450980000002" blue="0.36862745099999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="q3Z-He-DEg" firstAttribute="top" secondItem="uhM-5E-MEQ" secondAttribute="top" constant="10" id="0ul-ZW-Knu"/>
+                                    <constraint firstItem="q3Z-He-DEg" firstAttribute="leading" secondItem="3Xg-Eg-LNA" secondAttribute="trailing" constant="2" id="8QC-FC-Mb5"/>
                                     <constraint firstItem="QDN-fg-cvM" firstAttribute="leading" secondItem="LcW-cm-uvi" secondAttribute="trailing" constant="15" id="MkQ-v0-kO3"/>
                                     <constraint firstItem="QDN-fg-cvM" firstAttribute="top" secondItem="uhM-5E-MEQ" secondAttribute="top" constant="14" id="Un0-PU-adm"/>
                                     <constraint firstItem="q3Z-He-DEg" firstAttribute="leading" secondItem="QDN-fg-cvM" secondAttribute="trailing" constant="16" id="VGh-Zy-Wps"/>
                                     <constraint firstAttribute="height" constant="50" id="WUA-36-PWF"/>
+                                    <constraint firstItem="3Xg-Eg-LNA" firstAttribute="top" secondItem="uhM-5E-MEQ" secondAttribute="top" constant="18" id="Xl6-5q-bv3"/>
                                     <constraint firstItem="LcW-cm-uvi" firstAttribute="leading" secondItem="uhM-5E-MEQ" secondAttribute="leading" constant="8" id="gUT-2N-x99"/>
+                                    <constraint firstItem="3Xg-Eg-LNA" firstAttribute="leading" secondItem="QDN-fg-cvM" secondAttribute="trailing" constant="2" id="nMp-BC-WqC"/>
                                     <constraint firstItem="LcW-cm-uvi" firstAttribute="top" secondItem="uhM-5E-MEQ" secondAttribute="top" constant="10" id="qey-8k-vDd"/>
                                     <constraint firstAttribute="trailing" secondItem="q3Z-He-DEg" secondAttribute="trailing" constant="20" id="qqI-lt-fSd"/>
                                 </constraints>
@@ -190,7 +199,9 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addAttachmentButton" destination="QDN-fg-cvM" id="FqG-3W-egX"/>
+                        <outlet property="bottomView" destination="uhM-5E-MEQ" id="U1V-bj-ktY"/>
                         <outlet property="heightConstraint" destination="WUA-36-PWF" id="dGo-zf-5MV"/>
+                        <outlet property="imagecounter" destination="3Xg-Eg-LNA" id="zdv-pb-ZCq"/>
                         <outlet property="messageTextField" destination="LcW-cm-uvi" id="Y3d-Fc-krU"/>
                         <outlet property="tableView" destination="RGD-Ng-U8R" id="zPA-V1-2dY"/>
                         <segue destination="eyD-ph-NGU" kind="show" identifier="addContacts" id="Yi3-cm-6Xd"/>
@@ -346,6 +357,7 @@
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vvh-lI-1v3">
                                 <rect key="frame" x="10" y="182" width="355" height="34"/>
+                                <color key="textColor" red="0.20392156859999999" green="0.28627450980000002" blue="0.36862745099999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -371,6 +383,7 @@
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Ih-an-ugI">
                                 <rect key="frame" x="10" y="230" width="355" height="34"/>
+                                <color key="textColor" red="0.20392156859999999" green="0.28627450980000002" blue="0.36862745099999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
@@ -425,6 +438,7 @@
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wdy-sx-xsb">
                                 <rect key="frame" x="10" y="182" width="355" height="34"/>
+                                <color key="textColor" red="0.20392156859999999" green="0.28627450980000002" blue="0.36862745099999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -441,6 +455,7 @@
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UpZ-DM-E4z">
                                 <rect key="frame" x="10" y="230" width="355" height="34"/>
+                                <color key="textColor" red="0.20392156859999999" green="0.28627450980000002" blue="0.36862745099999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                             </textField>
@@ -476,35 +491,6 @@
             </objects>
             <point key="canvasLocation" x="927.20000000000005" y="-661.61919040479768"/>
         </scene>
-        <!--Temp-->
-        <scene sceneID="Vb3-9A-P77">
-            <objects>
-                <viewController id="XiX-8r-2m1" customClass="temp" customModule="Bulk_SMS" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="u3I-xw-epi">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7xi-DZ-T1H">
-                                <rect key="frame" x="67" y="269" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lZR-B1-GmZ">
-                                <rect key="frame" x="164" y="464" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="addImages:" destination="XiX-8r-2m1" eventType="touchUpInside" id="C6E-Wx-A6e"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="YP6-xw-KN5"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Rmx-or-mgN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1908" y="-733"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="2Uy-ej-gZX">
             <objects>
@@ -529,6 +515,6 @@
         <image name="man" width="170.5" height="170.5"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="yBA-G5-sH4"/>
+        <segue reference="QkA-NJ-pRd"/>
     </inferredMetricsTieBreakers>
 </document>

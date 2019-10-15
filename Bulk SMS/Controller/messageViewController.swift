@@ -14,6 +14,7 @@ import Firebase
 
 class messageViewController: UIViewController, MFMessageComposeViewControllerDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    @IBOutlet weak var imagecounter: UILabel!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     let imagePicker = UIImagePickerController()
     @IBOutlet weak var tableView: UITableView!
@@ -37,6 +38,7 @@ class messageViewController: UIViewController, MFMessageComposeViewControllerDel
     
     var contactList:[Contact]=[Contact]()
     
+    @IBOutlet weak var bottomView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -119,7 +121,8 @@ class messageViewController: UIViewController, MFMessageComposeViewControllerDel
                 self.imageURLs.append(path)
                 
                 self.messageVC.addAttachmentURL(imageURL as! URL, withAlternateFilename: nil)
-                
+                self.imagecounter.isHidden = false
+                self.imagecounter.text = "\(self.imageURLs.count)"
                 
             }
             
@@ -135,6 +138,12 @@ class messageViewController: UIViewController, MFMessageComposeViewControllerDel
         switch (result) {
         case .cancelled:
             print("Message was cancelled")
+            dismiss(animated: true, completion: nil)
+        case .failed:
+            print("Message failed")
+            dismiss(animated: true, completion: nil)
+        case .sent:
+            print("Message was sent")
                   var timestamp = String(NSDate().timeIntervalSince1970).components(separatedBy: ".")[0]
             var ans:Int!
             
@@ -165,14 +174,10 @@ class messageViewController: UIViewController, MFMessageComposeViewControllerDel
             messageVC = MFMessageComposeViewController()
             imageURLs.removeAll()
             messageTextField.text = ""
+            imagecounter.text = "0"
+            imagecounter.isHidden = true
             
-//            addAttachmentButton.buttonType = UIButton.ButtonType.contactAdd
-            dismiss(animated: true, completion: nil)
-        case .failed:
-            print("Message failed")
-            dismiss(animated: true, completion: nil)
-        case .sent:
-            print("Message was sent")
+            
 
             dismiss(animated: true, completion: nil)
         default:

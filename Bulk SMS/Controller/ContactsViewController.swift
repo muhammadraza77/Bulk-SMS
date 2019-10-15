@@ -58,6 +58,8 @@ class ContactsViewController: UIViewController {
                             let temp:Contact=Contact()
                             temp.name=contact.givenName
                             temp.number=contact.phoneNumbers[0].value.stringValue
+                            temp.number = temp.number.replacingOccurrences(of: " ", with: "")
+                            print(temp.number)
                             self.contacts.append(temp)
                     })
                 }catch{

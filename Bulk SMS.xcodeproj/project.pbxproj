@@ -28,7 +28,6 @@
 		929794142346002D007B64BA /* MessageImgTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 929794122346002D007B64BA /* MessageImgTableViewCell.xib */; };
 		92CA393423468D85007F6A8E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CA393323468D85007F6A8E /* LoginViewController.swift */; };
 		92CA393623468DA9007F6A8E /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CA393523468DA9007F6A8E /* RegisterViewController.swift */; };
-		92D31196234BC9CB007D1661 /* temp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D31195234BC9CB007D1661 /* temp.swift */; };
 		92D8250A2341FB590089F328 /* contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D825092341FB590089F328 /* contact.swift */; };
 		92F4BC782341516C004D5507 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F4BC772341516C004D5507 /* Group.swift */; };
 /* End PBXBuildFile section */
@@ -58,7 +57,6 @@
 		929794122346002D007B64BA /* MessageImgTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageImgTableViewCell.xib; sourceTree = "<group>"; };
 		92CA393323468D85007F6A8E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		92CA393523468DA9007F6A8E /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
-		92D31195234BC9CB007D1661 /* temp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = temp.swift; sourceTree = "<group>"; };
 		92D825092341FB590089F328 /* contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = contact.swift; sourceTree = "<group>"; };
 		92F4BC772341516C004D5507 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		9CB13568F5356F2DD3D557C0 /* Pods_Bulk_SMS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bulk_SMS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,7 +126,6 @@
 				9252A75C2341D00100494F78 /* MessageTableViewCell.xib */,
 				929794112346002D007B64BA /* MessageImgTableViewCell.swift */,
 				929794122346002D007B64BA /* MessageImgTableViewCell.xib */,
-				92D31195234BC9CB007D1661 /* temp.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -308,7 +305,6 @@
 				9252A75D2341D00100494F78 /* MessageTableViewCell.swift in Sources */,
 				92CA393423468D85007F6A8E /* LoginViewController.swift in Sources */,
 				929160B22345318E00AE1B54 /* Message.swift in Sources */,
-				92D31196234BC9CB007D1661 /* temp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,7 +381,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -440,7 +436,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -455,15 +451,19 @@
 			baseConfigurationReference = 3F73DCCD18F750283C275FD3 /* Pods-Bulk SMS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2AB5HGL5F5;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = S69XVTUHM6;
 				INFOPLIST_FILE = "Bulk SMS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.nouveausolution.Bulk-SMS";
+				MARKETING_VERSION = 1.0.4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nouveausolution.messegingapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -474,15 +474,19 @@
 			baseConfigurationReference = 2B72431665AB922F199D40C6 /* Pods-Bulk SMS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2AB5HGL5F5;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = S69XVTUHM6;
 				INFOPLIST_FILE = "Bulk SMS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.nouveausolution.Bulk-SMS";
+				MARKETING_VERSION = 1.0.4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nouveausolution.messegingapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
